@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane ng-controller="mainCtrl">
+
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Ionic Blank Starter</h1>
+      </ion-header-bar>
+      <div style="background: url(https://maps.googleapis.com/maps/api/streetview?size=640x300&amp;location=40.720032,-73.988354) #c0c0c0; background-size: 100%; height: 600px; margin-top: 45px;">
+
+      </div>
+
+      <ion-content style="margin-top: 175px">
+
+        <ul class="list">
+          <li class="item item-avatar" ng-click="accion(station.rotulo)" ng-repeat="station in lista">
+            <img src="venkman.jpg">
+            <div class="row">
+            <div class="col col-75">
+              <h2>{{station.rotulo}}</h2>
+              <p>{{station.direccion}}</p>
+              <p>{{station.municipio}}</p>
+            </div>
+            <div class="col">
+            <p style="font-size: 1.2em; color: #FF8001">{{station.precio.dieselA}}&#x20AC;</p>
+            <p>{{station.distancia}}</p>
+            </div>
+            </div>
+          </li>
+
+      </ul>
+      </ion-content>
+      <div class="tabs tabs-icon-only">
+        <a class="tab-item" ng-click="getStations()">
+          <i class="icon ion-home"></i>
+        </a>
+        <a class="tab-item">
+          <i class="icon ion-star"></i>
+        </a>
+        <a class="tab-item">
+          <i class="icon ion-gear-a"></i>
+        </a>
+      </div>
+    </ion-pane>
+  </body>
+</html>
