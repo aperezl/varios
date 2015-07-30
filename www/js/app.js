@@ -21,6 +21,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
     .getCurrentPosition()
     .then(function(position) {
         geoLocation.setGeolocation(position.coords.latitude, position.coords.longitude)
+        geoLocation.setStations();
+
     }, function(err) {
         geoLocation.setGeolocation(37.38, -122.09)
     });
@@ -33,7 +35,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
       };
 
       var watch = $cordovaGeolocation.watchPosition(options);
-      console.log(watch.then)
       watch.then(function() { /* Not  used */ },
           function(err) {
               geoLocation.setGeolocation(37.38, -122.09)
@@ -50,15 +51,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
   $stateProvider.state('tabs', {
     abstract: true,
     url: '/tab',
-    views: {
-      lista: {
-        templateUrl: 'tabs.html',
-        controller: 'demoCtrl'
-      }
-    }
+    templateUrl: 'tabs.html'
   });
 
-  $stateProvider.state('lista', {
+  $stateProvider.state('tabs.lista', {
     url: '/lista',
     parent: "tabs",
     views: {
@@ -77,27 +73,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
     }
   });
 
-  $stateProvider.state('home', {
-    url: '/home',
-    parent: "tabs",
-    views: {
-      home: {
-        templateUrl: 'home.html'
+  $stateProvider.state('tabs.home', {
+      url: "/home",
+      views: {
+        'home-tab': {
+          templateUrl: "home.html",
+          controller: 'mainCtrl'
+        }
       }
-    }
-  });
+    });
 
-  $stateProvider.state('help', {
-    url: '/help',
-    parent: "tabs",
-    views: {
-      help: {
-        templateUrl: 'help.html',
+  $stateProvider.state('tabs.about', {
+      url: "/about",
+      views: {
+        'about-tab': {
+          templateUrl: "about.html"
+        }
       }
-    }
-  });
+    });
 
-  $urlRouterProvider.otherwise('/lista');
+  $urlRouterProvider.otherwise('/tab/home');
 })
 
 
@@ -123,6 +118,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
 
   return service;
 }])
+
+
 
 .controller('mainCtrl', function($scope, $rootScope, listaService, $http, $cordovaGeolocation, geoLocation, $state) {
   console.log('iniciado el controlador');
@@ -177,7 +174,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
       }, function(err) {
         console.log('ERR', err);
       });
+  }
 
+  $scope.init = function() {
+    console.log('init');
+    $scope.lista = geoLocation.getStations().data;
+    //$state.go('/tabs/homes')
   }
 
   $scope.getStations = function() {

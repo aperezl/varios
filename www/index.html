@@ -23,41 +23,70 @@
     <script src="js/services.js"></script>
     <script src="js/app.js"></script>
   </head>
-  <body ng-app="starter" ng-controller="mainCtrl">
-  <ion-nav-view></ion-nav-view>
+  <body ng-app="starter">
+    <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
 
+    <ion-nav-view></ion-nav-view>
 
 <script type="text/ng-template" id="tabs.html">
-    <ion-tabs class="tabs-default">
-          <ion-tab icon="ion-help" ui-sref="help">
-        <ion-nav-view name="help"></ion-nav-view>
+  <ion-tabs class="tabs-icon-top tabs-positive">
+
+      <ion-tab title="Home" icon="ion-home" href="#/tab/home">
+        <ion-nav-view name="home-tab"></ion-nav-view>
       </ion-tab>
-     <ion-tab icon="ion-star" ng-click="prueba()" ui-sref="lista">
-        <ion-nav-view name="lista"></ion-nav-view>
+
+      <ion-tab title="About" icon="ion-ios-information" href="#/tab/about">
+        <ion-nav-view name="about-tab"></ion-nav-view>
       </ion-tab>
-      <ion-tab icon="ion-home" ui-sref="home">
-        <ion-nav-view name="home"></ion-nav-view>
+
+      <ion-tab title="Contact" icon="ion-ios-world" ui-sref="tabs.contact">
+        <ion-nav-view name="contact-tab"></ion-nav-view>
       </ion-tab>
+
     </ion-tabs>
 </script>
 
-<script type="text/ng-template" id="home.html">
-  <ion-view title="Home">
-    <ion-content padding="true">
-      <h2>Home Page</h2>
-      <p>Heres the main route for the app.</p>
+<script id="home.html" type="text/ng-template">
+  <ion-view title="Lista">
+    <ion-content padding="false">
+    <button ng-if="!lista" class="button" ng-click="init()">
+      Refrescar
+    </button>
+      <ul class="list">
+        <li class="item item-avatar" ng-click="accion(station._id)" ng-repeat="station in lista">
+          <img src="venkman.jpg">
+          <div class="row">
+          <div class="col col-75">
+            <h2>{{station.rotulo}}</h2>
+            <p>{{station.direccion}}</p>
+            <p>{{station.municipio}}</p>
+          </div>
+          <div class="col">
+          <p style="font-size: 1.2em; color: #FF8001">{{station.precio.dieselA}}&#x20AC;</p>
+          <p>{{distance(station.loc[0], station.loc[1])}}</p>
+          </div>
+          </div>
+        </li>
+    </ul>
     </ion-content>
   </ion-view>
 </script>
 
-<script type="text/ng-template" id="help.html">
-  <ion-view title="Home">
-    <ion-content padding="true">
-       <h2>Using the app</h2>
-       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis architecto hic officia quasi excepturi sequi deleniti maiores consectetur veritatis sint?</p>
-    </ion-content>
-  </ion-view>
-</script>
+  <script id="about.html" type="text/ng-template">
+    <ion-view view-title="About">
+      <ion-content class="padding">
+        <h3>Create hybrid mobile apps with the web technologies you love.</h3>
+        <p>Free and open source, Ionic offers a library of mobile-optimized HTML, CSS and JS components for building highly interactive apps.</p>
+        <p>Built with Sass and optimized for AngularJS.</p>
+        <p>
+          <a class="button icon icon-right ion-chevron-right" href="#/tab/navstack">Tabs Nav Stack</a>
+        </p>
+      </ion-content>
+    </ion-view>
+  </script>
 
 <script type="text/ng-template" id="lista.html">
 <ion-view title="Lista">

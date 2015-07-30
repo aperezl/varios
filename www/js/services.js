@@ -16,7 +16,7 @@ angular.module('starter.service', ['ionic', 'ngCordova'])
         }
     }
 }])
-.factory('geoLocation', function($localStorage) {
+.factory('geoLocation', function($localStorage, $http, $state) {
     return {
         setGeolocation: function(latitude, longitude) {
             var _position = {
@@ -24,6 +24,7 @@ angular.module('starter.service', ['ionic', 'ngCordova'])
                 longitude: longitude
             }
             $localStorage.setObject('geoLocation', _position)
+            console.log('localizado')
         },
         getGeolocation: function() {
             return glocation = {
@@ -51,6 +52,19 @@ angular.module('starter.service', ['ionic', 'ngCordova'])
                 dist = parseInt(dist * 1000) + ' m';
             }
             return dist
+        },
+        setStations: function() {
+          var pos = this.getGeolocation();
+          $http.get('http://unuko.com:7777/gas?lat=' + pos.lat + '&lon=' + pos.lng)
+            .then(function(stations) {
+              $localStorage.setObject('stations', stations);
+              console.log('grabado');
+            }, function(err) {
+              console.log('ERR', err);
+            });
+        },
+        getStations: function() {
+          return $localStorage.getObject('stations');
         }
     }
 })
