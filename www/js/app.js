@@ -17,12 +17,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
       StatusBar.styleDefault();
     }
 
+    console.log('Plataforma arrancada')
+
     $cordovaGeolocation
     .getCurrentPosition()
     .then(function(position) {
         geoLocation.setGeolocation(position.coords.latitude, position.coords.longitude)
-        geoLocation.setStations();
-
+        //geoLocation.setStations();
+        console.log('then lanzado de localización, set realizado')
+        console.log($ionicPlatform)
     }, function(err) {
         geoLocation.setGeolocation(37.38, -122.09)
     });
@@ -41,9 +44,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
           },
           function(position) {
               geoLocation.setGeolocation(position.coords.latitude, position.coords.longitude)
-          });
-
-
+        });
   });
 })
 
@@ -65,10 +66,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
     });
 
     $stateProvider.state('tabs.station', {
-      url: '/station',
+      url: '/station/:id',
       views: {
         'home-tab': {
-          templateUrl: 'detalle.html'
+          templateUrl: 'detalle.html',
+          controller: 'mainCtrl'
         }
       }
     })
@@ -112,7 +114,42 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
 
 
 .controller('mainCtrl', function($scope, $rootScope, listaService, $http, $cordovaGeolocation, geoLocation, $state) {
-  console.log('iniciado el controlador');
+
+  var posOptions = {timeout: 10000, enableHighAccuracy: false};
+$cordovaGeolocation
+  .getCurrentPosition(posOptions)
+  .then(function (position) {
+    var lat  = position.coords.latitude
+    var long = position.coords.longitude
+  }, function(err) {
+    // error
+  });
+
+
+var watchOptions = {
+  frequency : 1000,
+  timeout : 3000,
+  enableHighAccuracy: false // may cause errors if true
+};
+
+var watch = $cordovaGeolocation.watchPosition(watchOptions);
+watch.then(
+  null,
+  function(err) {
+    // error
+  },
+  function(position) {
+    var lat  = position.coords.latitude
+    var long = position.coords.longitude
+    geoLocation.setGeolocation(lat, long);
+    geoLocation.setStations(function(stations) {
+      $scope.lista = stations.data;
+    })
+    watch.clearWatch();
+});
+
+
+
 
 
 
@@ -166,9 +203,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
       });
   }
 
-  $scope.init = function() {
-    console.log('init');
-    $scope.lista = geoLocation.getStations().data;
+  $scope.obtenerDetalle = function(id) {
+    console.log('state', $state)
+    console.log('id', id)
+    $http.get('http://unuko.com:7777/gas/' + $state.params.id)
+    .then(function(station) {
+      console.log('success', station);
+
+      $scope.station = station.data;
+      console.log('Station...', $scope.station);
+    }, function(err) {
+      console.error('ERR', err);
+    })
+
+
+  }
+
+  $scope.init = function(id) {
+
+    //geoLocation.setStations($scope);
+    //$scope.lista = geoLocation.getStations().data;
     //$state.go('/tabs/homes')
   }
 

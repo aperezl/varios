@@ -20,6 +20,7 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+    <script src="lib/Chart.js/Chart.min.js"></script>
     <script src="js/services.js"></script>
     <script src="js/app.js"></script>
   </head>
@@ -51,13 +52,13 @@
 
 <script id="home.html" type="text/ng-template">
   <ion-view title="Lista">
-    <ion-content padding="false">
+    <ion-content padding="false" ng-init="init()">
     <button ng-if="!lista" class="button" ng-click="init()">
       Refrescar
     </button>
       <ul class="list">
-        <a class="item item-avatar" href="#/tab/station" ng-repeat="station in lista">
-          <img src="venkman.jpg">
+        <a class="item item-avatar" href="#/tab/station/{{station._id}}" ng-repeat="station in lista">
+          <!--<img src="venkman.jpg">-->
           <div class="row">
           <div class="col col-75">
             <h2>{{station.rotulo}}</h2>
@@ -112,9 +113,10 @@
 </script>
 
 <script type="text/ng-template" id="detalle.html">
-<ion-view title="Detalle">
-  <ion-content padding="false">
-    Detalle
+<ion-view title="Detalle" ng-init="obtenerDetalle()">
+  <ion-content padding="false" >
+    <img style="width: 100%" src="https://maps.googleapis.com/maps/api/streetview?size=640x200&location={{station.station.loc[0]}},{{station.station.loc[1]}}" />
+    <canvas id="myChart" width="400" height="400"></canvas>
   </ion-content>
 </ion-view>
 </script>
