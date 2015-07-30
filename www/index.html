@@ -20,50 +20,77 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+    <script src="js/services.js"></script>
     <script src="js/app.js"></script>
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" ng-controller="mainCtrl">
+  <ion-nav-bar class="bar-default">
+</ion-nav-bar>
+    <ion-tabs class="tabs-default">
+          <ion-tab icon="ion-help" ui-sref="help">
+        <ion-nav-view name="help"></ion-nav-view>
+      </ion-tab>
+     <ion-tab icon="ion-star" ng-click="prueba()" ui-sref="lista">
+        <ion-nav-view name="lista"></ion-nav-view>
+      </ion-tab>
+      <ion-tab icon="ion-home" ui-sref="home">
+        <ion-nav-view name="home"></ion-nav-view>
+      </ion-tab>
 
-    <ion-pane ng-controller="mainCtrl">
-
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <div style="background: url(https://maps.googleapis.com/maps/api/streetview?size=640x300&amp;location=40.720032,-73.988354) #c0c0c0; background-size: 100%; height: 600px; margin-top: 45px;">
-
-      </div>
-
-      <ion-content style="margin-top: 175px">
-
-        <ul class="list">
-          <li class="item item-avatar" ng-click="accion(station.rotulo)" ng-repeat="station in lista">
-            <img src="venkman.jpg">
-            <div class="row">
-            <div class="col col-75">
-              <h2>{{station.rotulo}}</h2>
-              <p>{{station.direccion}}</p>
-              <p>{{station.municipio}}</p>
-            </div>
-            <div class="col">
-            <p style="font-size: 1.2em; color: #FF8001">{{station.precio.dieselA}}&#x20AC;</p>
-            <p>{{station.distancia}}</p>
-            </div>
-            </div>
-          </li>
-
-      </ul>
-      </ion-content>
-      <div class="tabs tabs-icon-only">
-        <a class="tab-item" ng-click="getStations()">
-          <i class="icon ion-home"></i>
-        </a>
-        <a class="tab-item">
-          <i class="icon ion-star"></i>
-        </a>
-        <a class="tab-item">
-          <i class="icon ion-gear-a"></i>
-        </a>
-      </div>
+     
+    </ion-tabs>
+    <ion-nav-view name="detalle"></ion-nav-view>
+    <ion-pane>
+      <!--<div style="background: url(https://maps.googleapis.com/maps/api/streetview?size=640x300&amp;location=40.720032,-73.988354) #c0c0c0; background-size: 100%; height: 600px; margin-top: 45px;">-->
     </ion-pane>
+
+<script type="text/ng-template" id="home.html">
+  <ion-view title="Home">
+    <ion-content padding="true">
+      <h2>Home Page</h2>
+      <p>Heres the main route for the app.</p>
+    </ion-content>
+  </ion-view>
+</script>
+
+<script type="text/ng-template" id="help.html">
+  <ion-view title="Home">
+    <ion-content padding="true">
+       <h2>Using the app</h2>
+       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis architecto hic officia quasi excepturi sequi deleniti maiores consectetur veritatis sint?</p>
+    </ion-content>
+  </ion-view>
+</script>
+
+<script type="text/ng-template" id="lista.html">
+<ion-view title="Lista">
+  <ion-content padding="false">
+    <ul class="list">
+      <li class="item item-avatar" ng-click="accion(station._id)" ng-repeat="station in lista">
+        <img src="venkman.jpg">
+        <div class="row">
+        <div class="col col-75">
+          <h2>{{station.rotulo}}</h2>
+          <p>{{station.direccion}}</p>
+          <p>{{station.municipio}}</p>
+        </div>
+        <div class="col">
+        <p style="font-size: 1.2em; color: #FF8001">{{station.precio.dieselA}}&#x20AC;</p>
+        <p>{{distance(station.loc[0], station.loc[1])}}</p>
+        </div>
+        </div>
+      </li>
+  </ul>
+  </ion-content>
+</ion-view>
+</script>
+
+<script type="text/ng-template" id="detalle.html">
+<ion-view title="Detalle">
+  <ion-content padding="false">
+    Detalle
+  </ion-content>
+</ion-view>
+</script>
   </body>
 </html>
