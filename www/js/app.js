@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.service', 'angles'])
 
 
 .run(function($ionicPlatform, $cordovaGeolocation, geoLocation) {
@@ -211,6 +211,25 @@ watch.then(
       console.log('success', station);
 
       $scope.station = station.data;
+      station.data.historico.map(function(e) {
+        return e.price;
+      })
+      $scope.chart = {
+        labels : station.data.historico.map(function(e) {
+          return e.date;
+        }),
+        datasets : [
+            {
+                fillColor : "rgba(151,187,205,0)",
+                strokeColor : "#e67e22",
+                pointColor : "rgba(151,187,205,0)",
+                pointStrokeColor : "#e67e22",
+                data : station.data.historico.map(function(e) {
+                  return e.price;
+                })
+            }
+        ],
+    };
       console.log('Station...', $scope.station);
     }, function(err) {
       console.error('ERR', err);
