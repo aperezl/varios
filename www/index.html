@@ -24,8 +24,10 @@
     <script src="js/app.js"></script>
   </head>
   <body ng-app="starter" ng-controller="mainCtrl">
-  <ion-nav-bar class="bar-default">
-</ion-nav-bar>
+  <ion-nav-view></ion-nav-view>
+
+
+<script type="text/ng-template" id="tabs.html">
     <ion-tabs class="tabs-default">
           <ion-tab icon="ion-help" ui-sref="help">
         <ion-nav-view name="help"></ion-nav-view>
@@ -36,13 +38,8 @@
       <ion-tab icon="ion-home" ui-sref="home">
         <ion-nav-view name="home"></ion-nav-view>
       </ion-tab>
-
-     
     </ion-tabs>
-    <ion-nav-view name="detalle"></ion-nav-view>
-    <ion-pane>
-      <!--<div style="background: url(https://maps.googleapis.com/maps/api/streetview?size=640x300&amp;location=40.720032,-73.988354) #c0c0c0; background-size: 100%; height: 600px; margin-top: 45px;">-->
-    </ion-pane>
+</script>
 
 <script type="text/ng-template" id="home.html">
   <ion-view title="Home">
@@ -66,7 +63,7 @@
 <ion-view title="Lista">
   <ion-content padding="false">
     <ul class="list">
-      <li class="item item-avatar" ng-click="accion(station._id)" ng-repeat="station in lista">
+      <li class="item item-avatar" ng-click="accion(station._id)" ui-sref="lista.detalle" ng-repeat="station in lista">
         <img src="venkman.jpg">
         <div class="row">
         <div class="col col-75">

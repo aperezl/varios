@@ -47,18 +47,31 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('tabs', {
+    abstract: true,
+    url: '/tab',
+    views: {
+      lista: {
+        templateUrl: 'tabs.html',
+        controller: 'demoCtrl'
+      }
+    }
+  });
+
   $stateProvider.state('lista', {
     url: '/lista',
+    parent: "tabs",
     views: {
       lista: {
         templateUrl: 'lista.html'
       }
     }
   });
-  $stateProvider.state('detalle', {
+  $stateProvider.state('lista.detalle', {
      url: '/station/:id',
+     parent: "tabs",
     views: {
-      detalle: {
+      'lista@detalle': {
         templateUrl: 'detalle.html'
       }
     }
@@ -66,6 +79,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
 
   $stateProvider.state('home', {
     url: '/home',
+    parent: "tabs",
     views: {
       home: {
         templateUrl: 'home.html'
@@ -75,9 +89,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
 
   $stateProvider.state('help', {
     url: '/help',
+    parent: "tabs",
     views: {
       help: {
-        templateUrl: 'help.html'
+        templateUrl: 'help.html',
       }
     }
   });
@@ -143,7 +158,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
     $http.get('http://unuko.com:7777/gas/' + id)
     .then(function(station) {
       console.log('success', station);
-      $state.go('detalle')
+      $state.go('lista.detalle');
+      console.log('debería haber redireccionado')
     }, function(err) {
       console.error('ERR', err);
     })
@@ -157,7 +173,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.service'])
         listaService.model.lista = stations.data;
         listaService.SaveState();
         $scope.lista = listaService.model.lista;
-        $state.go('lista')
+        //$state.go('lista.detalle')
       }, function(err) {
         console.log('ERR', err);
       });
